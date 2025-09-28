@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.views import View
 from .models import Estudiante, Archivos
 from .forms import EstudianteForm
+from django.shortcuts import get_object_or_404
 
 #Las vistas responden  a las solicitudes web y devuelven respuestas web.
 class CrearEstudianteView(View):
@@ -27,3 +28,8 @@ class CrearEstudianteView(View):
             return redirect("detalle_estudiante", estudiante_id=estudiante.id)
 
         return render(request, "crear_estudiante.html", {"form": form})
+
+def detalle_estudiante(request, estudiante_id):
+    estudiante = get_object_or_404(Estudiante, id=estudiante_id)
+    return render(request, "detalle_estudiante.html", {"estudiante": estudiante})
+

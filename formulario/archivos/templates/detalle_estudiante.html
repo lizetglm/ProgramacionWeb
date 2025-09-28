@@ -1,0 +1,12 @@
+<h1>Expediente de {{ estudiante.nombre }}</h1>
+<p>Carrera: {{ estudiante.carrera }}</p>
+<p>Semestre: {{ estudiante.semestre }}</p>
+
+<h2>Documentos</h2>
+<ul>
+  {% for doc in estudiante.documentos.all %}
+    <li><a href="{{ doc.archivo.url }}">{{ doc.archivo.name }}</a></li>
+  {% empty %}
+    <li>No hay documentos.</li>
+  {% endfor %}
+</ul>

@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            height: 100vh;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #2F4F4F;
+            color: #F0F0F0;
+        }
+        .titulo {
+            font-size: 2em;
+            text-align: center;
+        }
+        form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        input{
+          width: 85%;
+          height: 35px;
+          border-radius: 5px;
+          border: 1px solid #ccc;
+          padding: 5px;
+        }
+        .hola{
+          background-color: #465B5B;
+          border-radius: 10px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container col-6 hola">
+      <h1 class="titulo">Registrar Estudiante</h1>
+
+      <form method="post" enctype="multipart/form-data" class="formulario-registro p-3">
+          {% csrf_token %}
+          <div class="mb-3 d-flex justify-content-between" id="nombre">
+              <label for="id_nombre">Nombre:</label>
+              {{ form.nombre }}
+          </div>
+          <div class="mb-3 d-flex justify-content-between">
+              <label for="id_carrera">Carrera:</label>
+              {{ form.carrera }}
+          </div>
+          <div class="mb-3 d-flex justify-content-between">
+              <label for="id_semestre">Semestre:</label>
+              {{ form.semestre }}
+          </div>
+          <div class="mb-3 d-flex justify-content-between">
+              <label for="id_archivos">Archivos:</label>
+              {{ form.archivos }}
+          </div>
+
+          <button type="submit" class="btn btn-secondary">Guardar</button>
+      </form>
+
+    
+
+      {% if form.errors %}
+          <div style="color:red; border: 1px solid red; padding: 10px;" class="error-mensaje">
+              Hay errores en el formulario. Por favor, revísalos.
+              {{ form.errors }}
+          </div>
+      {% endif %}
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+</body>
+</html>
