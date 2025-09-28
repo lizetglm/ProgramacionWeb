@@ -1,11 +1,10 @@
 from django import forms
-from .models import Estudiante, Archivos
+from .models import Estudiante
 
 
 #permite subir multiples archivos
 class MultipleFileInput(forms.ClearableFileInput):
     allow_multiple_selected = True
-
 
 #permite recibir multiples archivos
 class MultipleFileField(forms.FileField):
@@ -23,11 +22,10 @@ class MultipleFileField(forms.FileField):
                 raise forms.ValidationError("Solo se permiten archivos PDF o imágenes (JPG, PNG).")
         return data
 
-
 #formulario para el modelo Estudiante
 class EstudianteForm(forms.ModelForm):
     archivos = MultipleFileField(required=False)
-    
+
     class Meta:
         model = Estudiante
         fields = ["nombre", "carrera", "semestre", "archivos"]

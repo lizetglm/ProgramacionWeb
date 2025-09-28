@@ -1,22 +1,29 @@
-# from django.shortcuts import render
-# from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
 # from .forms import UploadFileForm
+from django.views import View
+from .models import Estudiante, Archivos
+from .forms import EstudianteForm
 
-# # Imaginary function to handle an uploaded file.
-# from somewhere import handle_uploaded_file
+#Las vistas responden  a las solicitudes web y devuelven respuestas web.
+class CrearEstudianteView(View):
+    def get(self, request):
+        form = EstudianteForm()
+        return render(request, "crear_estudiante.html", {"form": form})
 
+    def post(self, request):
+        form = EstudianteForm(request.POST, request.FILES)
 
-# def upload_file(request):
-#     if request.method == "POST":
-#         form = UploadFileForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             handle_uploaded_file(request.FILES["file"])
-#             return HttpResponseRedirect("/success/url/")
-#     else:
-#         form = UploadFileForm()
-#     return render(request, "upload.html", {"form": form})
+        if form.is_valid():
+            # Guardar estudiante
+            estudiante = form.save(commit=False)
+            estudiante.save()
 
-# def handle_uploaded_file(f):
-#     with open("some/file/name.txt", "wb+") as destination:
-#         for chunk in f.chunks():    
-#             destination.write(chunk)
+            # Guardar archivos
+            archivos = request.FILES.getlist("archivos")
+            for archivo in archivos:
+                Archivos.objects.create(estudiante=estudiante, archivo=archivo)
+
+            return redirect("detalle_estudiante", estudiante_id=estudiante.id)
+
+        return render(request, "crear_estudiante.html", {"form": form})
