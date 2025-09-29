@@ -1,0 +1,90 @@
+<html>
+    <head>
+        <title>Registro</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+                height: 100vh;
+                box-sizing: border-box;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #2F4F4F;
+                color: #F0F0F0;
+                flex-direction: column;
+            }
+            .hola{
+                background-color: #465B5B;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                max-height: 80%;
+                padding: 0px !important;
+            }
+            .table {
+                background-color: #606565ff;
+                border-radius: 12px;
+                overflow: hidden;
+                margin: 0px !important;
+            }
+            thead th {
+                background-color: #2F4F4F;
+                color: #F0F0F0;
+                border-bottom: 2px solid #F0F0F0;
+            }
+            .regular {
+                width: 30%;
+            }  
+            .semestre {
+                width: 10%;
+            }
+            .acciones {
+                width: 20%;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="d-flex justify-content-between mb-3 col-11 justify-content-center align-items-center">
+            <h1>Lista de Estudiantes</h1>
+            <a href="{% url 'crear_estudiante' %}" class="btn btn-success">Agregar Estudiante</a>
+        </div>
+        <div class="container col-11 hola" style="overflow-y: auto;">
+            <table class="table table-striped" style="width: 100%; table-layout: fixed;">
+                <thead>
+                    <tr style=" height: 50px">
+                        <th class="regular">Nombre</th>
+                        <th class="regular">Carrera</th>
+                        <th class="semestre">Semestre</th>
+                        <th class="regular">Archivos</th>
+                        <th class="acciones">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for estudiante in estudiantes %}
+                    <tr>
+                        <td class="regular">{{ estudiante.nombre }}</td>
+                        <td class="regular">{{ estudiante.carrera }}</td>
+                        <td class="semestre">{{ estudiante.semestre }}</td>
+                        <td class="archivos" style="word-wrap: break-word;">
+                        {% for archivo in estudiante.archivos %}
+                            <a href="{{ archivo.archivo.url }}" target="_blank">{{ archivo.archivo.name|cut:'archivos/' }}</a><br>
+                        {% empty %}
+                            Sin archivos
+                        {% endfor %}
+                        </td>
+                        <td class="regular">
+                            <a href="{% url 'editar_estudiante' estudiante.id %}" class="btn btn-primary btn-sm">Editar</a>
+                            <a href="{% url 'eliminar_estudiante' estudiante.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5">No hay estudiantes registrados.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

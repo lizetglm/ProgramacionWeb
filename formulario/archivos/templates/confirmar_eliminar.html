@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Eliminar estudiante</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>¿Estás seguro de que deseas eliminar a {{ estudiante.nombre }}?</h2>
+        <p>Carrera: {{ estudiante.carrera }}</p>
+        <p>Semestre: {{ estudiante.semestre }}</p>
+        <h4>Archivos asociados:</h4>
+        <ul>
+            {% for archivo in archivos %}
+                <li>{{ archivo.archivo.name|cut:'archivos/' }}</li>
+            {% empty %}
+                <li>No hay archivos subidos.</li>
+            {% endfor %}
+        </ul>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+            <a href="{% url 'lista_estudiantes' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</body>
+</html>

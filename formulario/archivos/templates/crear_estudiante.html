@@ -1,5 +1,3 @@
-{% load static %}
-<!DOCTYPE html>
 <html>
 <head>
     <title>Registro</title>
@@ -37,12 +35,19 @@
           border-radius: 10px;
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
           padding: 20px;
+          justify-content: center;
+          align-items: center;
         }
     </style>
 </head>
 <body>
-    <div class="container col-6 hola">
-      <h1 class="titulo">Registrar Estudiante</h1>
+    <div class="container col-5 hola">
+
+            {% if accion == 'editar' %}
+                <h1 class="titulo mt-4">Editar Estudiante</h1>
+            {% else %}
+                <h1 class="titulo mt-4">Registrar Estudiante</h1>
+            {% endif %}
 
       <form method="post" enctype="multipart/form-data" class="formulario-registro p-3">
           {% csrf_token %}
@@ -63,19 +68,38 @@
               {{ form.archivos }}
           </div>
 
-          <button type="submit" class="btn btn-secondary">Guardar</button>
+          <div class="d-flex justify-content-between mt-4 mb-4">
+            <a href="{% url 'lista_estudiantes' %}" class="btn btn-secondary col-5">Regresar</a>
+            <button type="submit" class="btn btn-secondary col-5">Guardar</button>
+          </div>
+
+            {% if accion == 'editar' and archivos %}
+                <div class="mt-6" style=" max-height: 130px; overflow-y: auto; background-color: #606565ff;">
+                    <h5>Archivos existentes:</h5>
+                    <ul>
+                        {% for archivo in archivos %}
+                            <li>
+                                <a href="{{ archivo.archivo.url }}" target="_blank">{{ archivo.archivo.name|cut:'archivos/' }}</a>
+                            </li>
+                        {% empty %}
+                            <li>No hay archivos subidos.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
       </form>
 
-    
-
       {% if form.errors %}
-          <div style="color:red; border: 1px solid red; padding: 10px;" class="error-mensaje">
+          <div style="color:red; border: 1px solid red; padding: 10px; background-color: #F8D7DA;" class="error-mensaje">
               Hay errores en el formulario. Por favor, revísalos.
               {{ form.errors }}
           </div>
       {% endif %}
 
     </div>
+    {% comment %} <div class="container col-6 hola">
+      <p>Nota: Solo se permiten archivos PDF e imágenes.</p>
+    </div> {% endcomment %}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
 </body>

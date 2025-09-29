@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Estudiante(models.Model):
+    id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
     carrera = models.CharField(max_length=100)
     semestre = models.IntegerField()
