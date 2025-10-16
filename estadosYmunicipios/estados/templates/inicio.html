@@ -6,10 +6,11 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 40px;
+            margin: 20px 40px;
         }
         select {
             padding: 6px;
+            width: 200px;
             margin: 10px 0;
             font-size: 15px;
         }
@@ -45,15 +46,17 @@
 </head>
 <body>
 
-    <h2>Selecciona un Estado</h2>
+    <div style="text-align: center; background-color: #c3d1f8ff; padding: 20px; border-radius: 10px;">
+        <h2>Por favor selecciona un estado</h2>
 
-    <label for="estadoSelect">Estado:</label>
-    <select id="estadoSelect">
-        <option value="">Seleccionar estado</option>
-        {% for estado in estados %}
-            <option value="{{ estado.id }}">{{ estado.nombre }}</option>
-        {% endfor %}
-    </select>
+        <label for="estadoSelect">Estado:</label>
+        <select id="estadoSelect">
+            <option value="">Seleccionar estado</option>
+            {% for estado in estados %}
+                <option value="{{ estado.id }}">{{ estado.nombre }}</option>
+            {% endfor %}
+        </select>
+    </div>
 
     <!-- mostrar municipios -->
     <div id="cardsContainer" class="cards-container"></div>
